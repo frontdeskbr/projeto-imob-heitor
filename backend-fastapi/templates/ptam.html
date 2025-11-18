@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PTAM — {{imovel_titulo}}</title>
+  <style>
+    @page { size: A4; margin: 20mm 18mm; }
+    body { font-family: Arial, Helvetica, sans-serif; color: #222; }
+    h1,h2,h3 { margin: 0 0 8px; }
+    h1 { font-size: 22px; }
+    h2 { font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 4px; margin-top: 18px; }
+    p, li { font-size: 12px; line-height: 1.45; }
+    .muted { color:#666; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+    .kv { display:flex; gap:8px; }
+    .kv b { min-width: 140px; }
+    table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; }
+    th, td { border: 1px solid #e5e5e5; padding: 6px 8px; font-size: 11px; }
+    th { background: #f7f7f7; text-align: left; }
+    .header { text-align:center; margin-bottom: 16px; }
+    .footer { position: fixed; bottom: 0; left: 0; right: 0; text-align: center; font-size: 10px; color:#777; }
+    .photos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .photo { border:1px solid #eee; padding:6px; }
+    .photo img { width:100%; height:auto; }
+    .signature { margin-top: 28px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Parecer Técnico de Avaliação Mercadológica (PTAM)</h1>
+    <p class="muted">{{avaliador_nome}} — CRECI {{avaliador_creci}} · {{data_emissao}}</p>
+  </div>
+
+  <h2>1. Resumo Executivo</h2>
+  <div class="grid">
+    <div class="kv"><b>Imóvel:</b><span>{{imovel_titulo}}</span></div>
+    <div class="kv"><b>Endereço:</b><span>{{imovel_endereco_completo}}</span></div>
+    <div class="kv"><b>Valor de Avaliação:</b><span><b>R$ {{valor_avaliacao}}</b></span></div>
+    <div class="kv"><b>Faixa de Confiança:</b><span>{{faixa_min}} — {{faixa_max}}</span></div>
+    <div class="kv"><b>Data de Referência:</b><span>{{data_referencia}}</span></div>
+  </div>
+
+  <h2>2. Identificação do Imóvel</h2>
+  <div class="grid">
+    <div class="kv"><b>Tipo:</b><span>{{imovel_tipo}}</span></div>
+    <div class="kv"><b>Área (m²):</b><span>{{area_m2}}</span></div>
+    <div class="kv"><b>Quartos:</b><span>{{quartos}}</span></div>
+    <div class="kv"><b>Banheiros:</b><span>{{banheiros}}</span></div>
+    <div class="kv"><b>Vagas:</b><span>{{vagas}}</span></div>
+    <div class="kv"><b>Conservação:</b><span>{{estado_conservacao}}</span></div>
+    <div class="kv"><b>Posição:</b><span>{{posicao}}</span></div>
+    <div class="kv"><b>Matrícula:</b><span>{{matricula}}</span></div>
+  </div>
+
+  <h2>3. Metodologia</h2>
+  <p>Adota-se o método comparativo direto de dados de mercado, com ajustes por similaridade (área, conservação, vagas, idade, posição e facilidades). O valor final é obtido por média ponderada dos comparáveis.</p>
+
+  <h2>4. Comparáveis</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Endereço</th>
+        <th>Distância (m)</th>
+        <th>Área (m²)</th>
+        <th>Preço (R$)</th>
+        <th>Ajustes (%)</th>
+        <th>Preço Ajustado (R$)</th>
+        <th>Peso</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for comp in comps %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ comp.address }}</td>
+        <td>{{ comp.distance_m }}</td>
+        <td>{{ comp.area_m2 }}</td>
+        <td>{{ comp.price }}</td>
+        <td>{{ comp.ajustes_percent }}</td>
+        <td>{{ comp.preco_ajustado }}</td>
+        <td>{{ comp.peso }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>5. Conclusão</h2>
+  <p>Com base nos dados e metodologia, o valor de mercado estimado do imóvel na data de referência é <b>R$ {{valor_avaliacao}}</b>, dentro da faixa <b>{{faixa_min}} — {{faixa_max}}</b>.</p>
+  <p><b>Observações:</b> {{observacoes_metodologia}}</p>
+
+  <h2>6. Fotografias</h2>
+  <div class="photos">
+    {% for f in fotos %}
+    <div class="photo">
+      <img src="{{ f.url }}" alt="Foto {{ loop.index }}">
+      <p class="muted">Figura {{ loop.index }} — {{ f.descricao }}</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="signature">
+    <p>{{avaliador_nome}} — CRECI {{avaliador_creci}}<br/>
+    {{avaliador_contato}}</p>
+  </div>
+
+  <div class="footer">Gerado em {{data_emissao}} · {{avaliador_nome}}</div>
+</body>
+</html>

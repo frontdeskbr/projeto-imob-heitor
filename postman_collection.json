@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "Plataforma Imobiliária — API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Coleção de endpoints para autenticação, imóveis, leads, PTAM e integrações."
+  },
+  "item": [
+    {
+      "name": "Properties / List",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/properties",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "properties"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Properties / Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/properties",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "properties"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Apto 2Q no Turu\",\n  \"address_line\": \"Rua X\",\n  \"number\": \"123\",\n  \"neighborhood\": \"Turu\",\n  \"city\": \"São Luís\",\n  \"state\": \"MA\",\n  \"zip\": \"65000-000\",\n  \"geom\": {\n    \"lat\": -2.529,\n    \"lon\": -44.302\n  },\n  \"area_m2\": 62.5,\n  \"bedrooms\": 2,\n  \"bathrooms\": 1,\n  \"parking_spots\": 1,\n  \"price_requested\": 217000,\n  \"status\": \"available\"\n}"
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    }
+  ]
+}

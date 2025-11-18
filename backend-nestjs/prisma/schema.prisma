@@ -1,0 +1,25 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Property {
+  id              String   @id @default(uuid())
+  title           String?
+  address_line    String?
+  number          String?
+  neighborhood    String?
+  city            String?
+  state           String?
+  zip             String?
+  area_m2         Decimal?
+  bedrooms        Int?
+  bathrooms       Int?
+  parking_spots   Int?
+  price_requested Decimal?
+  status          String   @default("available")
+}
